@@ -93,3 +93,32 @@ instance MonadCatch Async where
         Just e' -> unAsync $ f e'
         _ -> return $ Left e
         Right a -> return $ Right a
+
+newtype AVar a = AVar { unAVar :: IVar (Either SomeException a) }
+
+newAVar :: Async (AVar a)
+newAVar = liftParIO $ AVar <$> new
+
+getAVar :: AVar a -> Async a
+getAVar = Async . get . unAVar
+
+putAVar :: AVar a -> a -> Async ()
+putAVar v ~a = liftParIO $ put_ (unAVar v) (Right a)
+
+forkAsync :: Async a -> Async ()
+forkAsync m = liftParIO $ fork $ unAsync m $> ()
+
+spawnAsync :: Async a -> Async (AVar a)
+spawnAsync m = liftParIO $ do
+  v <- new
+  fork $ unAsync m >>= put_ v
+  return $ AVar v
+
+instance ParFuture AVar Async where
+  spawn_ = spawnAsync
+  get = getAVar
+
+instance ParIVar AVar Async where
+  fork = forkAsync
+  new = newAVar
+  put_ = putAVar
