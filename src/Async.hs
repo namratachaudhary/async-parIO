@@ -7,6 +7,7 @@ import Control.Monad.Catch hiding (try)
 import Control.Monad.IO.Class
 import Control.Monad.Par.Class
 import Control.Monad.Par.IO
+import Data.Functor
 import Data.Semigroup
 
 newtype Async a = Async { unAsync :: ParIO (Either SomeException a) }
@@ -19,7 +20,10 @@ runAsync m = do
     Right a -> return a
 
 tryAsync :: Async a -> IO (Either SomeException a)
-tryAsync m = runParIO $ unAsync m
+tryAsync = runParIO . unAsync
+
+liftParIO :: ParIO a -> Async a
+liftParIO m = Async $ Right <$> m  -- I don't know a better way to write this :(
 
 instance Functor Async where
   fmap f m = Async $ fmap (fmap f) $ unAsync m
@@ -42,7 +46,7 @@ instance Applicative Async where
           Right a' -> return $ Right $ f' a'
 
 instance Monad Async where
-  return = Async . return . Right
+  return = liftParIO . return
 
   m >>= f = Async $ do
     r <- unAsync m
@@ -52,7 +56,7 @@ instance Monad Async where
       Right a -> unAsync $ f a
 
 instance MonadIO Async where
-  liftIO = Async . liftIO . try
+  liftIO = liftParIO . liftIO
 
 instance MonadBase IO Async where
   liftBase = liftIO
