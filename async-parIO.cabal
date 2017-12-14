@@ -28,9 +28,11 @@ library
                      , monad-par
                      , abstract-par
                      , exceptions
+                     , transformers-base
   ghc-options:         -Wall
   default-extensions:  Strict
                      , DeriveAnyClass
+                     , MultiParamTypeClasses
 
 test-suite async-parIO-test
   type: exitcode-stdio-1.0

@@ -47,7 +47,6 @@ instance MonadIO Async where
 instance MonadBase IO Async where
   liftBase = liftIO
 
-
 data AsyncEmptyException = AsyncEmptyException deriving (Exception, Show)
 
 instance Alternative Async where
