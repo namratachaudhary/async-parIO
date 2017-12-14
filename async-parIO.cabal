@@ -1,0 +1,47 @@
+name:           async-parIO
+version:        0.1.0.0
+synopsis:       lightweight Async wrapper around ParIO
+description:    Please see the README on Github at <https://github.com/githubuser/async-parIO#readme>
+homepage:       https://github.com/githubuser/async-parIO#readme
+bug-reports:    https://github.com/githubuser/async-parIO/issues
+author:         Namrata Chaudhary
+maintainer:     chdhry.namrata@gmail.com
+copyright:      2017 Namrata Chaudhary
+category:       Concurrency
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.24
+
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/async-parIO
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Lib
+  default-language:    Haskell2010
+  build-depends:       base
+                     , monad-par
+                     , abstract-par
+                     , exceptions
+                     , transformers-base
+  ghc-options:         -Wall
+  default-extensions:  Strict
+                     , DeriveAnyClass
+                     , MultiParamTypeClasses
+
+
+test-suite async-parIO-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >= 4.7 && < 5
+    , async-parIO
+  default-language: Haskell2010
