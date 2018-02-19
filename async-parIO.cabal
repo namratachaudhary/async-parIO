@@ -1,9 +1,9 @@
 name:           async-parIO
 version:        0.1.0.0
 synopsis:       lightweight Async wrapper around ParIO
-description:    Please see the README on Github at <https://github.com/githubuser/async-parIO#readme>
-homepage:       https://github.com/githubuser/async-parIO#readme
-bug-reports:    https://github.com/githubuser/async-parIO/issues
+description:    Please see the README on Github at <https://github.com/namratachaudhary/async-parIO#readme>
+homepage:       https://github.com/namratachaudhary/async-parIO#readme
+bug-reports:    https://github.com/namratachaudhary/async-parIO/issues
 author:         Namrata Chaudhary
 maintainer:     chdhry.namrata@gmail.com
 copyright:      2017 Namrata Chaudhary
@@ -18,7 +18,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/async-parIO
+  location: https://github.com/namratachaudhary/async-parIO
 
 library
   hs-source-dirs:      src
